@@ -9,7 +9,7 @@ module.exports = {
     apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
     const sender = {
-      email: "rahul.chauhan@softradix.in",
+      email: "rahultesting@yopmail.com",
     };
     const receiver = [
       {

@@ -175,9 +175,14 @@ swaggerSpec.paths = {
               "schema": {
                 "properties": {
                   "length": {
-                    "type": "string"
+                    "type": "number",
+                    default:0
                   },
                   "limit": {
+                    "type": "number",
+                    default:10
+                  },
+                  "search": {
                     "type": "string"
                   }
                 }

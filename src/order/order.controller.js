@@ -2,7 +2,11 @@ const Services = require('./order.services.js')
 import {successResponse,errorResponse} from '../../config/responseHelper'
 import {OrderMessage} from '../../constant/messages/order' 
 import {RESPONSE_CODES} from '../../config/constants'
+import cron from 'node-cron'
 
+// cron.schedule('1 * * * * *', async() => {
+//     console.log('cron job running every minute');
+//   });
 class Order{
     async init(db){
         this.services = new Services()
@@ -12,6 +16,7 @@ class Order{
 
     orderPlaced = async (req,res)=>{
         try{
+          
         const body = req.body;
 
         let getUserById = await this.services.getUserDetail(body.user_id)

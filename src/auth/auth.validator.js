@@ -10,8 +10,8 @@ const registerValidator = Joi.object({
 })
 
 const loginValidator = Joi.object({
-  email:Joi.string().email().trim().required(),
-  password:Joi.string().required()
+  email:Joi.string().email().message("Please enter valid email").trim().required().messages({"any.required":"Email is required","string.required":"Email is required"}),
+  password:Joi.string().required().messages({"any.required":"Password is required","string.required":"Password is required"})
 })
 
 const forgotPasswordValidator = Joi.object().keys({

@@ -18,9 +18,9 @@ class User{
 
     
     async listUser(req,res){
-        const {limit,length} = req.body;
+        const {body} = req;
         let response = {}
-        let list = await this.services.getUserList(limit,length)
+        let list = await this.services.getUserList(body)
       
         const totalUser = await this.services.countUser()
         response = successResponse(CUSTOM_MESSAGES.SUCCESS, null,list,RESPONSE_CODES.POST)

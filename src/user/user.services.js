@@ -1,31 +1,39 @@
-const sequelize = require("sequelize");
+import { Sequelize } from "sequelize";
+const Op = Sequelize.Op;;
 
-const Op = sequelize.Op;
+class User {
+  async init(db) {
+    this.Models = db.models;
+  }
 
-class User{
-    async init(db) {
-        this.Models = db.models;
+  countUser = async () => {
+    const query = { role_id: 2, deleted_at: null };
+    return this.Models.Users.count({ where: query });
+  };
+
+  getUserList = async (data) => {
+    const query = { role_id: 2 };
+    let havingCondition = {}
+    if (data.search && data.search != "") {
+      havingCondition = {
+        userFulllName: { [Op.like]: `%${data.search}%` }
       }
+    }
 
-      countUser = async () => {
-        const query = { role_id: 2, is_deleted: 0 };
-        return this.Models.Users.count({ where: query });
-      };
-    
-    getUserList = async (limit,length) => {
-        const query = { role_id: 2};
-        
-        return this.Models.Users.findAll({
-          where: query,
-          attributes: {
-            exclude: ["password"],
-          },
-          attributes: ["id", "first_name"],
-          limit: limit,
-          offset: length,
-         // order:[['id','desc']]
-        });
-      };
+    return this.Models.Users.findAll({
+      attributes: {include:[
+        "id", "first_name","last_name",
+        [
+          Sequelize.literal("(SELECT concat(u.first_name,' ', u.last_name) FROM users u WHERE u.id = users.id)"),"userFulllName"
+        ]
+      ]},
+      where: query,
+      having:havingCondition,
+      limit: data.limit,
+      offset: data.length,
+      // order:[['id','desc']]
+    });
+  };
 }
 
 module.exports = User;
